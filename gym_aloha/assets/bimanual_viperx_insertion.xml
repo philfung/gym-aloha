@@ -1,4 +1,5 @@
 <mujoco>
+    <option timestep="0.002" solver="Newton" iterations="100" tolerance="1e-10" />
     <include file="scene.xml"/>
     <include file="vx300s_dependencies.xml"/>
     <worldbody>
@@ -6,20 +7,20 @@
         <include file="vx300s_right.xml" />
 
         <body name="peg" pos="0.2 0.5 0.05">
-            <joint name="red_peg_joint" type="free" frictionloss="0.01" />
-            <inertial pos="0 0 0" mass="0.05" diaginertia="0.002 0.002 0.002" />
-            <geom condim="4" solimp="2 1 0.01" solref="0.01 1" friction="1 0.005 0.0001" pos="0 0 0" size="0.06 0.01 0.01" type="box" name="red_peg" rgba="1 0 0 1" />
+            <joint name="red_peg_joint" type="free" frictionloss="0.05" damping="0.1" />
+            <inertial pos="0 0 0" mass="0.1" diaginertia="0.005 0.005 0.005" />
+            <geom condim="4" solimp="0.9 0.95 0.001" solref="0.02 1" friction="1 0.01 0.001" pos="0 0 0" size="0.06 0.01 0.01" type="box" name="red_peg" rgba="1 0 0 1" />
         </body>
 
         <body name="socket" pos="-0.2 0.5 0.05">
-            <joint name="blue_socket_joint" type="free" frictionloss="0.01" />
-            <inertial pos="0 0 0" mass="0.05" diaginertia="0.002 0.002 0.002" />
+            <joint name="blue_socket_joint" type="free" frictionloss="0.05" damping="0.1" />
+            <inertial pos="0 0 0" mass="0.1" diaginertia="0.005 0.005 0.005" />
 <!--            <geom condim="4" solimp="2 1 0.01" solref="0.01 1" friction="1 0.005 0.0001" pos="0 0 0" size="0.06 0.01 0.01" type="box" name="red_peg_ref" rgba="1 0 0 1" />-->
-            <geom condim="4" solimp="2 1 0.01" solref="0.01 1" friction="1 0.05 0.001" pos="0 0 -0.02" size="0.06 0.018 0.002" type="box" name="socket-1" rgba="0 0 1 1" />
-            <geom condim="4" solimp="2 1 0.01" solref="0.01 1" friction="1 0.05 0.001" pos="0 0 0.02" size="0.06 0.018 0.002" type="box" name="socket-2" rgba="0 0 1 1" />
-            <geom condim="4" solimp="2 1 0.01" solref="0.01 1" friction="1 0.05 0.001" pos="0 0.02 0" size="0.06 0.002 0.018" type="box" name="socket-3" rgba="0 0 1 1" />
-            <geom condim="4" solimp="2 1 0.01" solref="0.01 1" friction="1 0.05 0.001" pos="0 -0.02 0" size="0.06 0.002 0.018" type="box" name="socket-4" rgba="0 0 1 1" />
-            <geom condim="4" solimp="2 1 0.01" solref="0.01 1" friction="1 0.005 0.0001" pos="0 0 0" size="0.04 0.01 0.01" type="box" name="pin" rgba="1 0 0 1" />
+            <geom condim="4" solimp="0.9 0.95 0.001" solref="0.02 1" friction="1 0.05 0.001" pos="0 0 -0.02" size="0.06 0.018 0.002" type="box" name="socket-1" rgba="0 0 1 1" />
+            <geom condim="4" solimp="0.9 0.95 0.001" solref="0.02 1" friction="1 0.05 0.001" pos="0 0 0.02" size="0.06 0.018 0.002" type="box" name="socket-2" rgba="0 0 1 1" />
+            <geom condim="4" solimp="0.9 0.95 0.001" solref="0.02 1" friction="1 0.05 0.001" pos="0 0.02 0" size="0.06 0.002 0.018" type="box" name="socket-3" rgba="0 0 1 1" />
+            <geom condim="4" solimp="0.9 0.95 0.001" solref="0.02 1" friction="1 0.05 0.001" pos="0 -0.02 0" size="0.06 0.002 0.018" type="box" name="socket-4" rgba="0 0 1 1" />
+            <geom condim="4" solimp="0.9 0.95 0.001" solref="0.02 1" friction="1 0.01 0.001" pos="0 0 0" size="0.04 0.01 0.01" type="box" name="pin" rgba="1 0 0 1" />
         </body>
 
     </worldbody>
