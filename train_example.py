@@ -1,3 +1,6 @@
+import matplotlib
+matplotlib.use('Agg') # Or any other supported backend like 'TkAgg', 'Qt5Agg' etc.
+import matplotlib.pyplot as plt
 import gymnasium as gym
 import numpy as np
 from stable_baselines3 import PPO
@@ -58,7 +61,7 @@ model = PPO(
 # Create the callback
 callback = PhysicsErrorCallback()
 
-TIMESTEPS = 10000  # Reduced for testing, increase for actual training
+TIMESTEPS = 1000  # Reduced for testing, increase for actual training
 
 try:
     # Train the agent with error handling
