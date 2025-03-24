@@ -1,6 +1,29 @@
+###### Fix for error in Colab ######
+# Error:
+#  File "/root/.cache/pypoetry/virtualenvs/gym-aloha-ENReEZCE-py3.11/lib/python3.11/site-packages/matplotlib/__init__.py", line 771, in __setitem__
+#     raise ValueError(f"Key {key}: {ve}") from None
+# ValueError: Key backend: 'module://matplotlib_inline.backend_inline' is not a valid value for backend; supported values are ['gtk3agg', 'gtk3cairo', 'gtk4agg', 'gtk4cairo', 'macosx', 'nbagg', 'notebook', 'qtagg', 'qtcairo', 'qt5agg', 'qt5cairo', 'tkagg', 'tkcairo', 'webagg', 'wx', 'wxagg', 'wxcairo', 'agg', 'cairo', 'pdf', 'pgf', 'ps', 'svg', 'template']
+
+import os
 import matplotlib
-matplotlib.use('Agg') # Or any other supported backend like 'TkAgg', 'Qt5Agg' etc.
+
+# Unset any incorrect backend settings from the environment
+os.environ.pop("MPLBACKEND", None)
+
+# Reset Matplotlib settings
+matplotlib.rcdefaults()
+
+# Force a valid backend (Agg in this case)
+matplotlib.use('Agg', force=True)
+
+# Import other necessary libraries after setting the backend
 import matplotlib.pyplot as plt
+
+# Verify that the backend is set correctly
+print("Matplotlib Backend:", matplotlib.get_backend())  # Should print 'Agg' 
+
+###### Fix for error in Colab ######
+
 import gymnasium as gym
 import numpy as np
 from stable_baselines3 import PPO
