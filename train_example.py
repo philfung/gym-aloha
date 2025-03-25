@@ -61,6 +61,47 @@ class PhysicsErrorCallback(BaseCallback):
             print(f"Error checking physics stability: {e}")
         return True
 
+# Custom callback to track and log rewards to wandb
+class RewardTrackingCallback(BaseCallback):
+    def __init__(self, verbose=0):
+        super().__init__(verbose)
+        self.episode_rewards = []
+        self.current_episode_reward = 0
+        
+    def _on_step(self):
+        # Get the reward from the most recent step
+        # The infos list contains dictionaries for each environment in a vectorized env
+        # Since we're using a single environment, we access the first element
+        infos = self.locals.get('infos')
+        if infos:
+            # Extract reward from the step
+            reward = self.locals.get('rewards')[0]
+            self.current_episode_reward += reward
+            
+            # Check if episode is done
+            done = self.locals.get('dones')[0]
+            if done:
+                # Log the episode reward to wandb
+                wandb.log({
+                    "episode_reward": self.current_episode_reward,
+                    "episode": len(self.episode_rewards)
+                })
+                
+                # Store the episode reward and reset for next episode
+                self.episode_rewards.append(self.current_episode_reward)
+                self.current_episode_reward = 0
+                
+                # Log running statistics
+                if len(self.episode_rewards) > 0:
+                    wandb.log({
+                        "mean_episode_reward": np.mean(self.episode_rewards),
+                        "median_episode_reward": np.median(self.episode_rewards),
+                        "min_episode_reward": np.min(self.episode_rewards),
+                        "max_episode_reward": np.max(self.episode_rewards)
+                    })
+        
+        return True
+
 # Custom callback to save model checkpoints at regular intervals
 class ModelCheckpointCallback(BaseCallback):
     def __init__(self, save_freq, save_path, verbose=0):
@@ -135,8 +176,9 @@ model = PPO(
 
 # Create the callbacks
 physics_callback = PhysicsErrorCallback()
-checkpoint_callback = ModelCheckpointCallback(save_freq=CHECKPOINT_FREQ, save_path="checkpoints")  # Save every 200 steps
-callback = CallbackList([physics_callback, checkpoint_callback])
+reward_callback = RewardTrackingCallback()
+checkpoint_callback = ModelCheckpointCallback(save_freq=CHECKPOINT_FREQ, save_path="checkpoints")
+callback = CallbackList([physics_callback, reward_callback, checkpoint_callback])
 
 # Create checkpoints directory if it doesn't exist
 os.makedirs("checkpoints", exist_ok=True)
