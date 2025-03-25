@@ -24,6 +24,10 @@ print("Matplotlib Backend:", matplotlib.get_backend())  # Should print 'Agg'
 
 ###### Fix for error in Colab ######
 
+# for headless env like Colab
+import os
+os.environ['MUJOCO_GL'] = 'egl'
+
 import gymnasium as gym
 import numpy as np
 from stable_baselines3 import PPO
