@@ -33,8 +33,8 @@ from stable_baselines3.common.env_checker import check_env
 from stable_baselines3.common.callbacks import BaseCallback, CallbackList
 from gym_aloha.env import AlohaEnv
 
-TIMESTEPS = 1000  # Reduced for testing, increase for actual training
-CHECKPOINT_FREQ = 500  # Save model every 200 steps
+TIMESTEPS = 30000  # Reduced for testing, increase for actual training
+CHECKPOINT_FREQ = 5000  # Save model every 200 steps
 MODEL_PATH = "ppo_aloha_insertion"
 
 # Custom callback to handle physics errors
